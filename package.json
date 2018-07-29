@@ -1,16 +1,16 @@
 {
   "name": "webcg-devtools",
-  "version": "0.1.0",
+  "version": "0.0.0",
   "description": "DevTools for WebCG graphic overlays and CasparCG templates",
   "browser": "dist/webcg-devtools.umd.js",
   "scripts": {
     "build": "rollup -c",
+    "postbuild": "mkdir -p dist && cp dist/webcg-devtools.umd.js docs/ && cd dist && zip webcg-devtools-$npm_package_version.zip *.js && cd ..",
     "dev": "rollup -c -w",
     "test": "standard && karma start karma.conf.js",
     "demo": "node server.js",
-    "preversion": "rm -rf dist/*",
-    "version": "npm run build",
-    "postversion": "cp dist/webcg-devtools.umd.js docs/ && cd dist && zip webcg-devtools-$npm_package_version.zip *.js && cd .. && git add -A && git commit -m \"chore: version ${npm_package_version}\""
+    "release": "standard-version -a",
+    "version": "echo \"Error: use npm run release\" && exit 1"
   },
   "repository": {
     "type": "git",
@@ -66,5 +66,12 @@
       "dist/",
       "docs/"
     ]
+  },
+  "standard-version": {
+    "scripts": {
+      "prerelease": "rm -rf dist/*",
+      "postbump": "npm run build && git add .",
+      "postchangelog": "sed '0,/Change Log/{s/Change Log/Changelog/}' CHANGELOG.md"
+    }
   }
 }
