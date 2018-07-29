@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>WebCG DevTools Demo</title>
+    <script src="webcg-devtools.umd.js"></script>
+    <style type="text/css">
+        body {
+            background-color: lightgray;
+        }
+
+        ul {
+            list-style-type: none;
+            padding: 0;
+        }
+    </style>
+</head>
+<body>
+<h1>WebCG DevTools Demo</h1>
+<ul></ul>
+<script type="text/javascript">
+  function _log (s) {
+    console.log('[example] ' + s)
+    const li = document.createElement('li')
+    li.innerText = s
+    document.body.querySelector('ul').appendChild(li)
+  }
+
+  function _make (name) {
+    return function () {
+      _log(name + ' ' + JSON.stringify(arguments))
+    }
+  }
+
+  ['play', 'next', 'stop', 'remove', 'update'].forEach(each => {
+    window[each] = _make(each)
+  })
+
+  const _eval = window.eval
+  window.eval = function eval (expr) {
+    const match = (expr || '').match(/^(\w+) *(\((.*?)\))?/)
+    if (match && window[match[1]] === undefined) {
+      // Temporary define function to log the call with arguments
+      window[match[1]] = _make(match[1])
+      try {
+        // Evaluate the expression
+        _eval(expr)
+      } finally {
+        // Remove temporary function
+        delete window[match[1]]
+      }
+    } else {
+      _eval(expr)
+    }
+  }
+</script>
+</body>
+</html>

@@ -1,0 +1,11 @@
+.webcg-devtools {
+  @import '../node_modules/bootstrap/scss/bootstrap.scss';
+
+  .modal {
+    display: block;
+    top: auto;
+    right: auto;
+    bottom: auto;
+    left: auto;
+  }
+}

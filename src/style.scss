@@ -1,0 +1,63 @@
+.webcg-devtools {
+
+  .btn-sm {
+    min-width: 2rem;
+  }
+  
+  .flex-columns {
+    display: flex;
+    flex-direction: column;
+    flex: 1 0 auto;
+  }
+
+  .form-row {
+    flex: 0 0 auto;
+  }
+
+  .modal {
+    height: auto;
+    width: auto;
+
+    .modal-content {
+      resize: both;
+      overflow: hidden; // for resize property to work
+      height: 100%;
+
+      min-width: 410px;
+      min-height: 63px;
+
+      .modal-header {
+        flex: 0 0 auto;
+      }
+
+      .modal-body {
+        position: static; // for resize property to work
+        display: flex;
+        flex-direction: column;
+
+        overflow: auto;
+        padding-bottom: 0;
+      }
+
+      .modal-footer {
+        flex: 0 0 auto;
+        justify-content: center;
+      }
+    }
+  }
+
+  .draggable {
+    position: absolute;
+    z-index: auto;
+  }
+
+  .drag-handle {
+    cursor: grab;
+    cursor: -webkit-grab;
+  }
+
+  .dragging .drag-handle {
+    cursor: grabbing;
+    cursor: -webkit-grabbing;
+  }
+}
