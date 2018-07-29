@@ -1,6 +1,6 @@
 {
   "name": "webcg-devtools",
-  "version": "0.0.0",
+  "version": "1.0.0",
   "description": "DevTools for WebCG graphic overlays and CasparCG templates",
   "browser": "dist/webcg-devtools.umd.js",
   "scripts": {
@@ -71,7 +71,7 @@
     "scripts": {
       "prerelease": "rm -rf dist/*",
       "postbump": "npm run build && git add .",
-      "postchangelog": "sed '0,/Change Log/{s/Change Log/Changelog/}' CHANGELOG.md"
+      "postchangelog": "sed -i '0,/Change Log/{s/Change Log/Changelog/}' CHANGELOG.md"
     }
   }
 }
