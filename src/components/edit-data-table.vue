@@ -10,15 +10,15 @@
                 </tr>
                 </thead>
                 <tbody>
-                <tr v-for="row in records">
+                <tr v-for="record in records">
                     <td class="inline-edit">
                         <input type="text" class="inline-input form-control"
-                               v-model="row['key']" @change="updateRecord(row)"/></td>
+                               v-model="record['key']" @change="updateRecord(record)"/></td>
                     <td class="inline-edit">
                         <input type="text" class="inline-input form-control"
-                               v-model="row['value']" @change="updateRecord(row)"/></td>
+                               v-model="record['value']" @change="updateRecord(record)"/></td>
                     <td class="inline-buttons">
-                        <button class="btn btn-outline-danger btn-sm" @click="deleteRecord(row)">-</button>
+                        <button class="btn btn-outline-danger btn-sm" @click="deleteRecord(record)">-</button>
                     </td>
                 </tr>
                 <tr>
@@ -28,7 +28,7 @@
                     </td>
                     <td class="inline-edit">
                         <input ref="newRecordInputValue" type="text" class="inline-input form-control"
-                               v-model="newRecord['value']">
+                               v-model="newRecord['value']" @blur="autoCreateRecord(newRecord)">
                     </td>
                     <td class="inline-buttons">
                         <button class="btn btn-outline-success btn-sm" @click="createRecord(newRecord)">+</button>
@@ -67,12 +67,17 @@
         this.resetNewRecord()
         this.emitInput()
       },
+      autoCreateRecord () {
+        if (this.newRecord['value']) {
+          this.createRecord()
+        }
+      },
       deleteRecord (record) {
         const idx = this.records.indexOf(record)
         this.records.splice(idx, 1)
         this.emitInput()
       },
-      updateRecord (record) {
+      updateRecord () {
         this.emitInput()
       },
       getNextKey (records) {
