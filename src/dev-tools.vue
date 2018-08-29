@@ -22,7 +22,7 @@
                                 Stop
                             </button>
                         </div>
-                        <div class="form-group col">
+                        <div class="form-group col" v-if="options.removeButton">
                             <button type="button" class="btn btn-block btn-outline-secondary" @click="eval('remove')">
                                 Remove
                             </button>
@@ -72,7 +72,10 @@
         invokeExpr: '',
         invokeErrorMessage: null,
         updateData: {},
-        version: version
+        version: version,
+        options: {
+          removeButton: false
+        }
       }
     },
     created () {
