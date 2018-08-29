@@ -1,9 +1,13 @@
 .webcg-devtools {
+  background: white;
+  color: black;
+  font-size: 16px;
+  line-height: normal;
 
   .btn-sm {
     min-width: 2rem;
   }
-  
+
   .flex-columns {
     display: flex;
     flex-direction: column;
