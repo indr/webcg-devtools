@@ -10,7 +10,7 @@ export default {
       let oldHeight = options.targetNode.style.height
 
       // Options for the observer (which mutations to observe)
-      const config = {attributes: true, childList: false, subtree: false}
+      const config = { attributes: true, childList: false, subtree: false }
 
       // Callback function to execute when mutations are observed
       const callback = function () {

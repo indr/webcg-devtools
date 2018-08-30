@@ -26,7 +26,7 @@ export default [
         'process.env.NODE_ENV': JSON.stringify('production'),
         'process.env.VUE_ENV': JSON.stringify('browser')
       }),
-      vue({compileTemplate: true}),
+      vue({ compileTemplate: true }),
       buble()
     ]
   }
