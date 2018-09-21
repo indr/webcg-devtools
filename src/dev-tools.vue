@@ -66,7 +66,7 @@
 
   export default {
     name: 'webcg-dev-tools',
-    components: {EditData},
+    components: { EditData },
     data () {
       return {
         invokeExpr: '',
@@ -140,7 +140,8 @@
       restoreInputs () {
         this.invokeExpr = window.localStorage.getItem(STORAGE_KEY_PREFIX + '.invokeExpr')
         try {
-          this.updateData = JSON.parse(window.localStorage.getItem(STORAGE_KEY_PREFIX + '.updateData')) || {}
+          this.updateData = JSON.parse(window.localStorage.getItem(STORAGE_KEY_PREFIX + '.updateData')) ||
+            JSON.parse(JSON.stringify(window.debugData || {}))
         } catch (ex) {
           this.updateData = {}
         }
