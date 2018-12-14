@@ -4,7 +4,7 @@
   (factory());
 }(this, (function () { 'use strict';
 
-  var version = "1.3.0";
+  var version = "1.3.1";
 
   /*!
    * Vue.js v2.5.17
@@ -7149,7 +7149,7 @@
   function getStorageItem (name, defaultValue) {
     try {
       var result = window.localStorage.getItem(STORAGE_KEY_PREFIX + '.' + name);
-      return result !== undefined ? JSON.parse(result) : defaultValue
+      return result !== null ? JSON.parse(result) : defaultValue
     } catch (err) {
       return defaultValue
     }
