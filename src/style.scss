@@ -32,6 +32,13 @@
 
       .modal-header {
         flex: 0 0 auto;
+        border-bottom: 0;
+      }
+
+      .modal-navbar {
+        .nav {
+          padding: 0 1rem;
+        }
       }
 
       .modal-body {

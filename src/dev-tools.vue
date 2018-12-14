@@ -5,51 +5,24 @@
                 <div class="modal-header drag-handle">
                     <h5 class="modal-title">WebCG DevTools {{ version }}</h5>
                 </div>
-                <div class="modal-body">
-                    <div class="form-row">
-                        <div class="form-group col">
-                            <button type="button" class="btn btn-block btn-primary" @click="play()">
-                                Play
-                            </button>
-                        </div>
-                        <div class="form-group col">
-                            <button type="button" class="btn btn-block btn-outline-secondary" @click="eval('next')">
-                                Next
-                            </button>
-                        </div>
-                        <div class="form-group col">
-                            <button type="button" class="btn btn-block btn-outline-secondary" @click="eval('stop')">
-                                Stop
-                            </button>
-                        </div>
-                        <div class="form-group col" v-if="options.removeButton">
-                            <button type="button" class="btn btn-block btn-outline-secondary" @click="eval('remove')">
-                                Remove
-                            </button>
-                        </div>
-                    </div>
-                    <div class="form-row">
-                        <div class="form-group col">
-                            <div class="input-group">
-                                <input type="text" class="form-control" :class="{'is-invalid': invokeErrorMessage}"
-                                       v-model="invokeExpr">
-                                <div class="input-group-append">
-                                    <button class="btn btn-outline-secondary" type="button" @click="invoke()">
-                                        Invoke
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="form-row" v-if="invokeErrorMessage">
-                        <div class="col">
-                            <div class="alert alert-danger" role="alert">
-                                {{ invokeErrorMessage }}
-                            </div>
-                        </div>
-                    </div>
-                    <edit-data v-model="updateData" v-on:update="update"/>
+                <div class="modal-navbar">
+                    <ul class="nav nav-tabs" id="myTab" role="tablist">
+                        <li class="nav-item">
+                            <a class="nav-link" :class="{'active': tab === 'tools'}" data-toggle="tab"
+                               href="#tools"
+                               role="tab"
+                               aria-controls="tools" aria-selected="true" @click="tab = 'tools'">Tools</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" :class="{'active': tab === 'settings'}" data-toggle="tab"
+                               href="#settings"
+                               role="tab"
+                               aria-controls="settings" aria-selected="false" @click="tab = 'settings'">Settings</a>
+                        </li>
+                    </ul>
                 </div>
+                <tab-tools :settings="settings" v-if="tab === 'tools'"></tab-tools>
+                <tab-settings v-model="settings" v-if="tab === 'settings'"></tab-settings>
                 <div class="modal-footer">
                     <a href="https://github.com/indr/webcg-devtools">https://github.com/indr/webcg-devtools</a>
                 </div>
@@ -60,26 +33,22 @@
 
 <script>
   import { version } from '../package.json'
-  import EditData from './components/edit-data.vue'
-
-  const STORAGE_KEY_PREFIX = 'webcg-devtools'
+  import storage from './lib/storage'
+  import TabSettings from './components/tab-settings.vue'
+  import TabTools from './components/tab-tools.vue'
 
   export default {
     name: 'webcg-dev-tools',
-    components: { EditData },
+    components: { TabSettings, TabTools },
     data () {
       return {
-        invokeExpr: '',
-        invokeErrorMessage: null,
-        updateData: {},
+        tab: 'tools',
         version: version,
-        options: {
-          removeButton: false
-        }
+        settings: {}
       }
     },
     created () {
-      this.restoreInputs()
+      this.loadSettings(this.settings)
     },
     mounted () {
       const $draggable = this.$el.querySelector('.draggable')
@@ -93,77 +62,44 @@
         onresized: this.resized.bind(this)
       })
     },
+    watch: {
+      settings: function (settings) {
+        this.applySettings(settings)
+        this.saveSettings(settings)
+      }
+    },
     methods: {
-      eval (expr) {
-        if (!expr) return
-        if (expr.indexOf('(') < 0 && expr.indexOf(')') < 0) {
-          expr += '()'
-        }
-        console.log('[webcg-devtools] calling ' + expr)
-        window.eval(expr)
+      loadSettings (settings) {
+        settings.callUpdateBeforePlay = storage.get('callUpdateBeforePlay', true)
+        settings.showRemoveButton = storage.get('showRemoveButton', false)
+        settings.backgroundColor = window.getComputedStyle(document.body, null).getPropertyValue('background-color')
       },
-      invoke () {
-        this.invokeErrorMessage = null
-        this.saveInputs()
-        try {
-          this.eval(this.invokeExpr || '')
-        } catch (ex) {
-          // Ignore the exception that is thrown because the function is not defined
-          if (ex.name === 'ReferenceError' && /is not defined$/.test(ex.message)) {
-            return
-          }
-          // Display any other error message
-          this.invokeErrorMessage = ex.message
-        }
+      saveSettings (settings) {
+        storage.set('callUpdateBeforePlay', settings.callUpdateBeforePlay)
+        storage.set('showRemoveButton', settings.showRemoveButton)
       },
-      play () {
-        // CasparCG invokes update before the first play command
-        if (!this.played) {
-          this.update(this.updateData)
-          this.played = true
-        }
-        this.eval('play')
-      },
-      update (data) {
-        this.updateData = data
-        this.saveInputs()
-        const stringified = JSON.stringify(this.updateData)
-        console.log('[webcg-devtools] calling update ' + stringified)
-        // stringify contains a string in this form '{"f0":123}'. but what we want to pass
-        // to the update() function has this form '"{\"f0\":123}\"', so we stringify() again.
-        window.eval('window[\'update\'](' + JSON.stringify(stringified) + ')')
-      },
-      saveInputs () {
-        window.localStorage.setItem(STORAGE_KEY_PREFIX + '.invokeExpr', this.invokeExpr || '')
-        window.localStorage.setItem(STORAGE_KEY_PREFIX + '.updateData', JSON.stringify(this.updateData))
-      },
-      restoreInputs () {
-        this.invokeExpr = window.localStorage.getItem(STORAGE_KEY_PREFIX + '.invokeExpr')
-        try {
-          this.updateData = JSON.parse(window.localStorage.getItem(STORAGE_KEY_PREFIX + '.updateData')) ||
-            JSON.parse(JSON.stringify(window.debugData || {}))
-        } catch (ex) {
-          this.updateData = {}
-        }
+      applySettings (settings) {
+        document.body.style.backgroundColor = settings.backgroundColor
       },
       dragged ($el) {
-        window.localStorage.setItem(STORAGE_KEY_PREFIX + '.offsetTop', $el.offsetTop)
-        window.localStorage.setItem(STORAGE_KEY_PREFIX + '.offsetLeft', $el.offsetLeft)
+        storage.set('offsetTop', $el.offsetTop)
+        storage.set('offsetLeft', $el.offsetLeft)
       },
       resized ($el) {
-        window.localStorage.setItem(STORAGE_KEY_PREFIX + '.offsetWidth', $el.offsetWidth)
-        window.localStorage.setItem(STORAGE_KEY_PREFIX + '.offsetHeight', $el.offsetHeight)
+        storage.set('offsetWidth', $el.offsetWidth)
+        storage.set('offsetHeight', $el.offsetHeight)
       },
       restoreDimensions ($draggable, $resizable) {
         const minWidth = 410
         const defaultWidth = 410
         const minHeight = 63
         const defaultHeight = 380
-        $draggable.style.top = Math.max(0, window.localStorage.getItem(STORAGE_KEY_PREFIX + '.offsetTop') || 200) + 'px'
-        $draggable.style.left = Math.max(0, window.localStorage.getItem(STORAGE_KEY_PREFIX + '.offsetLeft') || 200) + 'px'
-        $resizable.style.width = Math.max(minWidth, window.localStorage.getItem(STORAGE_KEY_PREFIX + '.offsetWidth') || defaultWidth) + 'px'
-        $resizable.style.height = Math.max(minHeight, window.localStorage.getItem(STORAGE_KEY_PREFIX + '.offsetHeight') || defaultHeight) + 'px'
+        $draggable.style.top = Math.max(0, storage.get('offsetTop') || 200) + 'px'
+        $draggable.style.left = Math.max(0, storage.get('offsetLeft') || 200) + 'px'
+        $resizable.style.width = Math.max(minWidth, storage.get('offsetWidth') || defaultWidth) + 'px'
+        $resizable.style.height = Math.max(minHeight, storage.get('offsetHeight') || defaultHeight) + 'px'
       },
+
     }
   }
 </script>
