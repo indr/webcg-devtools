@@ -3,7 +3,7 @@ const STORAGE_KEY_PREFIX = 'webcg-devtools'
 function getStorageItem (name, defaultValue) {
   try {
     const result = window.localStorage.getItem(STORAGE_KEY_PREFIX + '.' + name)
-    return result !== undefined ? JSON.parse(result) : defaultValue
+    return result !== null ? JSON.parse(result) : defaultValue
   } catch (err) {
     return defaultValue
   }
