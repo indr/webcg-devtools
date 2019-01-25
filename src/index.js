@@ -15,7 +15,7 @@ function readyFn () {
  * When required globally
  */
 if (typeof (window) !== 'undefined') {
-  console.log('[webcg-devtools] version %s', version)
+  console.log('[webcg-devtools] version ' + version)
   ready(readyFn)
 }
 
