@@ -2,6 +2,21 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="1.4.0"></a>
+# [1.4.0](https://github.com/indr/webcg-devtools/compare/v1.3.1...v1.4.0) (2019-01-25)
+
+
+### Bug Fixes
+
+* remove substitution strings from console.log ([586c283](https://github.com/indr/webcg-devtools/commit/586c283))
+
+
+### Features
+
+* add box-shadow, decrease footer font-size ([34083bf](https://github.com/indr/webcg-devtools/commit/34083bf))
+
+
+
 <a name="1.3.1"></a>
 ## [1.3.1](https://github.com/indr/webcg-devtools/compare/v1.3.0...v1.3.1) (2018-12-14)
 
