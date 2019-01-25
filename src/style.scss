@@ -21,6 +21,7 @@
   .modal {
     height: auto;
     width: auto;
+    box-shadow: 0 20px 32px -8px rgba(9, 45, 66, .25);
 
     .modal-content {
       resize: both;
@@ -53,6 +54,7 @@
       .modal-footer {
         flex: 0 0 auto;
         justify-content: center;
+        font-size: 12px;
       }
     }
   }
