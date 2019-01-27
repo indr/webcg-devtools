@@ -5,7 +5,7 @@
   line-height: normal;
 
   .btn-sm {
-    min-width: 2rem;
+    min-width: 32px; /* 2rem */
   }
 
   .flex-columns {
@@ -38,7 +38,7 @@
 
       .modal-navbar {
         .nav {
-          padding: 0 1rem;
+          padding: 0 16px; /* 0 1rem */
         }
       }
 
