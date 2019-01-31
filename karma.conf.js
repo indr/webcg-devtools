@@ -1,8 +1,8 @@
 module.exports = function (config) {
   config.set({
-    browsers: ['PhantomJS'],
-    frameworks: ['mocha', 'sinon-chai', 'phantomjs-shim'],
-    reporters: ['spec', 'coverage'],
+    browsers: ['ChromeHeadless'],
+    frameworks: ['mocha', 'sinon-chai'],
+    reporters: ['spec'],
     files: [
       /**
        * Make sure to disable Karma’s file watcher
@@ -11,7 +11,7 @@ module.exports = function (config) {
       { pattern: 'test/**/*.spec.js', watched: false }
     ],
     preprocessors: {
-      'test/**/*.spec.js': ['rollup', 'sourcemap', 'coverage']
+      'test/**/*.spec.js': ['rollup']
     },
     rollupPreprocessor: {
       /**
@@ -19,13 +19,19 @@ module.exports = function (config) {
        * except that `input` is handled for you.
        */
       plugins: [
-        require('rollup-plugin-node-resolve')({ browser: true, main: true }),
+        require('rollup-plugin-node-resolve')({
+          browser: true,
+          main: true
+        }),
         require('rollup-plugin-commonjs')(),
         require('rollup-plugin-replace')({
           'process.env.NODE_ENV': JSON.stringify('production'),
           'process.env.VUE_ENV': JSON.stringify('browser')
         }),
-        require('rollup-plugin-vue').default({ css: false, compileTemplate: true }),
+        require('rollup-plugin-vue').default({
+          css: false,
+          compileTemplate: true
+        }),
         require('rollup-plugin-buble')()
       ],
       output: {
@@ -34,12 +40,6 @@ module.exports = function (config) {
         sourcemap: 'inline' // Sensible for testing.
       }
     },
-    coverageReporter: {
-      dir: './test/coverage',
-      reporters: [
-        { type: 'lcov', subdir: '.' },
-        { type: 'text-summary' }
-      ]
-    }
+    singleRun: true
   })
 }

@@ -26,7 +26,7 @@ describe('EditDataJson', () => {
     const vm = new Vue(EditDataJson)
     vm.localValue = '{invalid JSON}'
     Vue.nextTick(() => {
-      expect(vm.errorMessage).to.have.string('JSON Parse error:')
+      expect(vm.errorMessage).to.have.string('JSON')
       done()
     })
   })

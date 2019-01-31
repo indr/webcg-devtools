@@ -32,8 +32,8 @@
         let obj
         try {
           obj = JSON.parse(val)
-        } catch (ex) {
-          this.errorMessage = ex.message
+        } catch (error) {
+          this.errorMessage = error.message
           return
         }
         this.errorMessage = null
