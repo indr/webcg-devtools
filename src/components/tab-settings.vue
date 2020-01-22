@@ -26,12 +26,12 @@
                 <h3>Overlay</h3>
                 <div class="form-group">
                     <label for="webcgInputOptionBackgroundColor">Background color</label>
-                    <input type="text" class="form-control" v-model.lazy="localValue.backgroundColor"
+                    <input type="color" class="form-control" v-model.lazy="localValue.backgroundColor"
                            id="webcgInputOptionBackgroundColor">
                     <small class="form-text text-muted">
-                        <a href="#" @click="localValue.backgroundColor = '#000'">Black</a>
-                        <a href="#" @click="localValue.backgroundColor = '#fff'">White</a>
-                        <a href="#" @click="localValue.backgroundColor = '#0f0'">Green</a>
+                        <a href="#" @click="localValue.backgroundColor = '#000000'">Black</a>
+                        <a href="#" @click="localValue.backgroundColor = '#ffffff'">White</a>
+                        <a href="#" @click="localValue.backgroundColor = '#00ff00'">Green</a>
                         <a href="#" @click="localValue.backgroundColor = 'rgba(0, 0, 0, 0)'">Transparent</a>
                     </small>
                 </div>
