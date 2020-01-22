@@ -49,6 +49,7 @@
     },
     created () {
       this.loadSettings(this.settings)
+      this.applySettings(this.settings)
     },
     mounted () {
       const $draggable = this.$el.querySelector('.draggable')
@@ -72,11 +73,12 @@
       loadSettings (settings) {
         settings.callUpdateBeforePlay = storage.get('callUpdateBeforePlay', true)
         settings.showRemoveButton = storage.get('showRemoveButton', false)
-        settings.backgroundColor = window.getComputedStyle(document.body, null).getPropertyValue('background-color')
+        settings.backgroundColor = storage.get('backgroundColor', window.getComputedStyle(document.body, null).getPropertyValue('background-color'))
       },
       saveSettings (settings) {
         storage.set('callUpdateBeforePlay', settings.callUpdateBeforePlay)
         storage.set('showRemoveButton', settings.showRemoveButton)
+        storage.set('backgroundColor', settings.backgroundColor)
       },
       applySettings (settings) {
         document.body.style.backgroundColor = settings.backgroundColor
