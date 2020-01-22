@@ -2,6 +2,17 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="1.5.0"></a>
+# [1.5.0](https://github.com/indr/webcg-devtools/compare/v1.4.1...v1.5.0) (2020-01-22)
+
+
+### Features
+
+* automatically restore background color ([5b2a2ae](https://github.com/indr/webcg-devtools/commit/5b2a2ae))
+* use input type color for background color perference ([49d8839](https://github.com/indr/webcg-devtools/commit/49d8839))
+
+
+
 <a name="1.4.1"></a>
 ## [1.4.1](https://github.com/indr/webcg-devtools/compare/v1.4.0...v1.4.1) (2019-01-27)
 
