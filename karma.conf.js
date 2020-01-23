@@ -20,15 +20,14 @@ module.exports = function (config) {
        */
       plugins: [
         require('rollup-plugin-node-resolve')({
-          browser: true,
-          main: true
+          browser: true
         }),
         require('rollup-plugin-commonjs')(),
         require('rollup-plugin-replace')({
           'process.env.NODE_ENV': JSON.stringify('production'),
           'process.env.VUE_ENV': JSON.stringify('browser')
         }),
-        require('rollup-plugin-vue').default({
+        require('rollup-plugin-vue')({
           css: false,
           compileTemplate: true
         }),

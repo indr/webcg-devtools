@@ -9,7 +9,7 @@ const createCmp = function (propsData) {
 
 describe('EditDataJson', () => {
   it('pretty stringifies value', () => {
-    const vm = createCmp({ value: { 'a': 'b' } })
+    const vm = createCmp({ value: { a: 'b' } })
     expect(vm.localValue).to.equal('{\n  "a": "b"\n}')
   })
 

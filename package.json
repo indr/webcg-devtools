@@ -9,7 +9,7 @@
     "dev": "rollup -c -w",
     "test": "standard && karma start karma.conf.js",
     "demo": "node server.js",
-    "release": "standard-version -a",
+    "release": "npm run test && standard-version -a",
     "version": "echo \"Error: use npm run release\" && exit 1"
   },
   "repository": {
@@ -33,6 +33,7 @@
     "karma": "^4.4.1",
     "karma-chrome-launcher": "^3.1.0",
     "karma-coverage": "^2.0.1",
+    "karma-firefox-launcher": "^1.3.0",
     "karma-mocha": "^1.3.0",
     "karma-phantomjs-launcher": "^1.0.4",
     "karma-phantomjs-shim": "^1.5.0",
@@ -74,8 +75,5 @@
       "postbump": "npm run build && git add .",
       "postchangelog": "sed -i '0,/Change Log/{s/Change Log/Changelog/}' CHANGELOG.md"
     }
-  },
-  "dependencies": {
-    "karma-firefox-launcher": "^1.3.0"
   }
 }
