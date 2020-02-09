@@ -2,6 +2,17 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [2.0.0](https://github.com/indr/webcg-devtools/compare/v1.5.0...v2.0.0) (2020-02-09)
+
+
+### ⚠ BREAKING CHANGES
+
+* This will reset the settings and data for all templates.
+
+### Features
+
+* save settings according to the URL's path ([99e69b1](https://github.com/indr/webcg-devtools/commit/99e69b1417f623ac2c10e0f9fbbb71fb6d64e53b))
+
 ## [1.5.0](https://github.com/indr/webcg-devtools/compare/v1.4.1...v1.5.0) (2020-01-22)
 
 
